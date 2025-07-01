@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -85,11 +86,6 @@ export function CategoryManager({ open, onOpenChange, onCategoriesChange }: Cate
       setNewCategory('');
       fetchCategories();
       onCategoriesChange();
-      
-      toast({
-        title: "Categoria adicionada",
-        description: `${newCategory} foi adicionada com sucesso.`
-      });
     } catch (error: any) {
       console.error('Error adding category:', error);
       toast({
@@ -113,11 +109,6 @@ export function CategoryManager({ open, onOpenChange, onCategoriesChange }: Cate
       
       setCategories(categories.filter(cat => cat.id !== id));
       onCategoriesChange();
-      
-      toast({
-        title: "Categoria removida",
-        description: "Categoria removida com sucesso."
-      });
     } catch (error: any) {
       console.error('Error deleting category:', error);
       toast({

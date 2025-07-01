@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -142,10 +141,6 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
       onUpdate(updatedTransaction);
       onClose();
       
-      toast({
-        title: 'Transação atualizada',
-        description: 'A transação foi atualizada com sucesso.'
-      });
     } catch (error: any) {
       console.error('Error updating transaction:', error);
       toast({

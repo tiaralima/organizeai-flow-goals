@@ -143,11 +143,6 @@ const TransactionsPage = () => {
       setTransactions(prev => prev.map(t => 
         t.id === transactionId ? { ...t, is_paid: !currentStatus } : t
       ));
-
-      toast({
-        title: "Status atualizado",
-        description: `Transação marcada como ${!currentStatus ? 'paga' : 'não paga'}`
-      });
     } catch (error: any) {
       console.error('Error updating payment status:', error);
       toast({

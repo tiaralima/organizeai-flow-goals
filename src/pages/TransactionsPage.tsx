@@ -6,6 +6,7 @@ import { Plus, ArrowUpRight, ArrowDownLeft, Loader2, Check, ChevronLeft, Chevron
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { EditTransactionModal } from '@/components/transactions/EditTransactionModal';
 
 type Transaction = {
   id: number;
@@ -33,6 +34,8 @@ const TransactionsPage = () => {
   const [loading, setLoading] = useState(true);
   const [updatingPayment, setUpdatingPayment] = useState<number | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +160,17 @@ const TransactionsPage = () => {
     }
   };
 
+  const handleTransactionClick = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setIsEditModalOpen(true);
+  };
+
+  const handleTransactionUpdate = (updatedTransaction: Transaction) => {
+    setTransactions(prev => prev.map(t => 
+      t.id === updatedTransaction.id ? updatedTransaction : t
+    ));
+  };
+
   if (loading) {
     return (
       <AppLayout>
@@ -240,7 +254,11 @@ const TransactionsPage = () => {
             </div>
           ) : (
             filteredTransactions.map(transaction => (
-              <div key={transaction.id} className="glass-card p-4">
+              <div 
+                key={transaction.id} 
+                className="glass-card p-4 cursor-pointer hover:bg-gray-50 transition-colors"
+                onClick={() => handleTransactionClick(transaction)}
+              >
                 <div className="flex items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-3 ${
                     transaction.transaction_type === 'income' ? 'bg-green-100' : 'bg-red-100'
@@ -270,7 +288,10 @@ const TransactionsPage = () => {
                               ? 'bg-green-100 text-green-600 hover:bg-green-200' 
                               : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                           }`}
-                          onClick={() => handleTogglePayment(transaction.id, transaction.is_paid)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTogglePayment(transaction.id, transaction.is_paid);
+                          }}
                           disabled={updatingPayment === transaction.id}
                         >
                           {updatingPayment === transaction.id ? (
@@ -298,6 +319,16 @@ const TransactionsPage = () => {
           )}
         </div>
       </div>
+
+      <EditTransactionModal
+        transaction={selectedTransaction}
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedTransaction(null);
+        }}
+        onUpdate={handleTransactionUpdate}
+      />
     </AppLayout>
   );
 };

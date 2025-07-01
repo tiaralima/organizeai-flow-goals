@@ -9,6 +9,24 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bd_ativo: {
+        Row: {
+          created_at: string
+          id: number
+          num: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          num?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          num?: number | null
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
@@ -137,6 +155,7 @@ export type Database = {
           list_id: number
           name: string
           price: number | null
+          quantity: number | null
         }
         Insert: {
           category?: string | null
@@ -146,6 +165,7 @@ export type Database = {
           list_id: number
           name: string
           price?: number | null
+          quantity?: number | null
         }
         Update: {
           category?: string | null
@@ -155,6 +175,7 @@ export type Database = {
           list_id?: number
           name?: string
           price?: number | null
+          quantity?: number | null
         }
         Relationships: [
           {
@@ -195,6 +216,7 @@ export type Database = {
           date: string
           description: string | null
           id: number
+          is_paid: boolean | null
           is_recurring: boolean | null
           recurring_months: number | null
           transaction_type: string
@@ -207,6 +229,7 @@ export type Database = {
           date?: string
           description?: string | null
           id?: never
+          is_paid?: boolean | null
           is_recurring?: boolean | null
           recurring_months?: number | null
           transaction_type: string
@@ -219,6 +242,7 @@ export type Database = {
           date?: string
           description?: string | null
           id?: never
+          is_paid?: boolean | null
           is_recurring?: boolean | null
           recurring_months?: number | null
           transaction_type?: string

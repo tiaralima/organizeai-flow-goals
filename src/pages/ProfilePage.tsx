@@ -1,19 +1,20 @@
-
 import React, { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, User } from 'lucide-react';
+import { Camera, User, Mail, Lock, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, updateProfile, signOut } = useAuth();
+  const isMobile = useIsMobile();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +24,6 @@ const ProfilePage = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   useEffect(() => {
-    // Buscar dados do perfil
     const fetchProfile = async () => {
       if (!user) return;
       
@@ -70,7 +70,6 @@ const ProfilePage = () => {
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Create data URL for preview
       const reader = new FileReader();
       reader.onload = () => {
         setPhoto(reader.result as string);
@@ -84,109 +83,241 @@ const ProfilePage = () => {
     navigate('/login');
   };
 
-  if (!user || loadingProfile) return (
-    <AppLayout>
-      <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
+  if (!user || loadingProfile) {
+    return isMobile ? (
+      <AppLayout>
+        <div className="flex justify-center items-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </AppLayout>
+    ) : (
+      <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 flex items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-purple-400" />
       </div>
-    </AppLayout>
-  );
+    );
+  }
 
-  return (
-    <AppLayout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Perfil 👤</h1>
-        <p className="text-muted-foreground">Atualize suas informações</p>
-      </div>
-      
-      <div className="glass-card p-6">
-        <form onSubmit={handleSave} className="space-y-6">
-          <div className="flex flex-col items-center">
-            <div className="relative">
-              {photo ? (
-                <img 
-                  src={photo} 
-                  alt={name} 
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white"
-                />
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
-                  <User className="text-white" size={36} />
-                </div>
-              )}
-              
-              <label htmlFor="photo-upload" className="absolute bottom-0 right-0 bg-purple-500 p-2 rounded-full cursor-pointer text-white hover:bg-purple-600 transition-colors">
-                <Camera size={16} />
-                <input 
-                  id="photo-upload" 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handlePhotoChange}
-                  className="hidden"
-                />
-              </label>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Nome</label>
-              <Input 
-                className="glass-input"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <Input 
-                className="glass-input"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-1">Senha (deixe em branco para não alterar)</label>
-              <Input 
-                className="glass-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••"
-              />
-            </div>
-          </div>
-          
-          <Button 
-            className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 transition-opacity"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Salvando...
-              </>
-            ) : 'Salvar alterações'}
-          </Button>
-        </form>
+  if (isMobile) {
+    return (
+      <AppLayout>
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold">Perfil 👤</h1>
+          <p className="text-muted-foreground">Atualize suas informações</p>
+        </div>
         
-        <div className="mt-8 pt-6 border-t border-white/30">
-          <Button 
-            variant="outline"
-            className="w-full"
-            onClick={handleLogout}
-          >
-            Sair da conta
-          </Button>
+        <div className="glass-card p-6">
+          <form onSubmit={handleSave} className="space-y-6">
+            <div className="flex flex-col items-center">
+              <div className="relative">
+                {photo ? (
+                  <img 
+                    src={photo} 
+                    alt={name} 
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                    <User className="text-white" size={36} />
+                  </div>
+                )}
+                
+                <label htmlFor="photo-upload" className="absolute bottom-0 right-0 bg-purple-500 p-2 rounded-full cursor-pointer text-white hover:bg-purple-600 transition-colors">
+                  <Camera size={16} />
+                  <input 
+                    id="photo-upload" 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handlePhotoChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Nome</label>
+                <Input 
+                  className="glass-input"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-1">Email</label>
+                <Input 
+                  className="glass-input"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-1">Senha (deixe em branco para não alterar)</label>
+                <Input 
+                  className="glass-input"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••"
+                />
+              </div>
+            </div>
+            
+            <Button 
+              className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 transition-opacity"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Salvando...
+                </>
+              ) : 'Salvar alterações'}
+            </Button>
+          </form>
+          
+          <div className="mt-8 pt-6 border-t border-white/30">
+            <Button 
+              variant="outline"
+              className="w-full"
+              onClick={handleLogout}
+            >
+              Sair da conta
+            </Button>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  // Desktop Version
+  return (
+    <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+      </div>
+
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-8">
+        <div className="max-w-2xl w-full">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2">
+              Seu Perfil
+            </h1>
+            <p className="text-purple-200/60 text-lg">
+              Gerencie suas informações pessoais
+            </p>
+          </div>
+
+          <div className="bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-3xl p-10">
+            <form onSubmit={handleSave} className="space-y-8">
+              {/* Avatar Section */}
+              <div className="flex flex-col items-center">
+                <div className="relative mb-6">
+                  {photo ? (
+                    <img 
+                      src={photo} 
+                      alt={name} 
+                      className="w-32 h-32 rounded-full object-cover border-4 border-purple-500/30"
+                    />
+                  ) : (
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                      <User className="text-white" size={48} />
+                    </div>
+                  )}
+                  
+                  <label htmlFor="photo-upload" className="absolute bottom-0 right-0 bg-gradient-to-r from-purple-500 to-blue-500 p-3 rounded-full cursor-pointer text-white hover:opacity-90 transition-opacity shadow-lg">
+                    <Camera size={20} />
+                    <input 
+                      id="photo-upload" 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={handlePhotoChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+              
+              {/* Form Fields */}
+              <div className="space-y-6">
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-purple-200 mb-2">
+                    <User className="w-4 h-4" />
+                    Nome completo
+                  </label>
+                  <Input 
+                    className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-purple-200 mb-2">
+                    <Mail className="w-4 h-4" />
+                    Email
+                  </label>
+                  <Input 
+                    className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label className="flex items-center gap-2 text-sm font-medium text-purple-200 mb-2">
+                    <Lock className="w-4 h-4" />
+                    Nova senha (opcional)
+                  </label>
+                  <Input 
+                    className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Deixe em branco para manter a senha atual"
+                  />
+                </div>
+              </div>
+              
+              <Button 
+                className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 transition-opacity h-14 text-lg"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Salvando alterações...
+                  </>
+                ) : 'Salvar alterações'}
+              </Button>
+            </form>
+            
+            <div className="mt-8 pt-8 border-t border-purple-500/20">
+              <Button 
+                variant="outline"
+                className="w-full border-red-500/30 text-red-300 hover:bg-red-500/10 hover:text-red-200 h-12"
+                onClick={handleLogout}
+              >
+                <LogOut className="mr-2 h-5 w-5" />
+                Sair da conta
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 };
 

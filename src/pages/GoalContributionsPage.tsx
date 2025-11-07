@@ -241,7 +241,7 @@ export function GoalContributionsPage() {
     return (
       <AppLayout>
         <div className="glass-card p-8 text-center">
-          <p className="text-muted-foreground mb-4">Meta não encontrada</p>
+          <p className="text-white mb-4">Meta não encontrada</p>
           <Button onClick={() => navigate('/goals')}>
             Voltar para Metas
           </Button>
@@ -266,14 +266,14 @@ export function GoalContributionsPage() {
             <ArrowLeft size={20} />
           </Button>
           <div>
-            <h1 className="text-xl font-bold">{goal.name}</h1>
-            <p className="text-sm text-muted-foreground">Gerenciar lançamentos</p>
+            <h1 className="text-xl font-bold text-white">{goal.name}</h1>
+            <p className="text-sm text-white">Gerenciar lançamentos</p>
           </div>
         </div>
 
         <div className="glass-card p-4 mb-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="font-medium">Progresso</h3>
+            <h3 className="font-medium text-white">Progresso</h3>
             <span className="text-xs font-semibold bg-white/40 px-2 py-1 rounded-full">
               {progress.toFixed(0)}%
             </span>
@@ -285,19 +285,19 @@ export function GoalContributionsPage() {
           
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div>
-              <p className="text-gray-500">Economizado</p>
-              <p className="font-medium">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalContributions)}</p>
+              <p className="text-white">Economizado</p>
+              <p className="font-medium text-white">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalContributions)}</p>
             </div>
             <div>
-              <p className="text-gray-500">Meta</p>
-              <p className="font-medium">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(goal.target_amount)}</p>
+              <p className="text-white">Meta</p>
+              <p className="font-medium text-white">{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(goal.target_amount)}</p>
             </div>
           </div>
         </div>
 
         <div className="glass-card p-4">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-medium">Lançamentos</h3>
+            <h3 className="font-medium text-white">Lançamentos</h3>
             <Button
               size="sm"
               className="bg-gradient-to-r from-purple-500 to-blue-500"
@@ -313,7 +313,7 @@ export function GoalContributionsPage() {
           </div>
 
           {contributions.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-4">
+            <p className="text-sm text-white text-center py-4">
               Nenhum lançamento encontrado
             </p>
           ) : (
@@ -321,13 +321,13 @@ export function GoalContributionsPage() {
               {contributions.map(contribution => (
                 <div 
                   key={contribution.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-white/50 hover:bg-white/70 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-lg bg-gray-300/10 hover:bg-white/20 transition-colors"
                 >
                   <div>
-                    <p className="text-sm font-medium">
+                    <p className="text-sm font-medium text-white">
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(contribution.amount)}
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-white">
                       {new Date(contribution.date).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
@@ -415,4 +415,4 @@ export function GoalContributionsPage() {
   );
 }
 
-export default GoalContributionsPage; 
+export default GoalContributionsPage;

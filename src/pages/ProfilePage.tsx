@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, User, Mail, Lock, LogOut } from 'lucide-react';
+import { Camera, User, Mail, Lock, LogOut, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -100,9 +100,11 @@ const ProfilePage = () => {
   if (isMobile) {
     return (
       <AppLayout>
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">Perfil 👤</h1>
-          <p className="text-muted-foreground">Atualize suas informações</p>
+        <div className="flex items-center gap-2 mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-white">Perfil 👤</h1>
+            <p className="text-white">Atualize suas informações</p>
+          </div>
         </div>
         
         <div className="glass-card p-6">
@@ -136,7 +138,7 @@ const ProfilePage = () => {
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Nome</label>
+                <label className="block text-sm font-medium mb-1 text-white">Nome</label>
                 <Input 
                   className="glass-input"
                   value={name}
@@ -146,7 +148,7 @@ const ProfilePage = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
+                <label className="block text-sm font-medium mb-1 text-white">Email</label>
                 <Input 
                   className="glass-input"
                   type="email"
@@ -157,7 +159,7 @@ const ProfilePage = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Senha (deixe em branco para não alterar)</label>
+                <label className="block text-sm font-medium mb-1 text-white">Senha (deixe em branco para não alterar)</label>
                 <Input 
                   className="glass-input"
                   type="password"
@@ -180,12 +182,20 @@ const ProfilePage = () => {
                 </>
               ) : 'Salvar alterações'}
             </Button>
+
+            <Button
+              variant="ghost"
+              onClick={() => navigate(-1)}
+              className="w-full hover:bg-slate-800 text-white mt-4"
+            >
+              Cancelar
+            </Button>
           </form>
           
           <div className="mt-8 pt-6 border-t border-white/30">
             <Button 
               variant="outline"
-              className="w-full"
+              className="w-full text-white border-white/50 hover:bg-slate-800 hover:text-white"
               onClick={handleLogout}
             >
               Sair da conta
@@ -301,6 +311,14 @@ const ProfilePage = () => {
                     Salvando alterações...
                   </>
                 ) : 'Salvar alterações'}
+              </Button>
+
+              <Button
+                variant="ghost"
+                onClick={() => navigate(-1)}
+                className="w-full hover:bg-slate-900/70 text-purple-100 h-14 text-lg mt-4"
+              >
+                Cancelar
               </Button>
             </form>
             

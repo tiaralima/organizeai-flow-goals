@@ -153,10 +153,10 @@ const DashboardPage = () => {
         <QuickActions />
         
         <div className="mb-4">
-          <h2 className="text-xl font-bold mb-3">Suas metas 🎯</h2>
+          <h2 className="text-xl font-bold mb-3 text-white">Suas metas 🎯</h2>
           {goals.length === 0 ? (
             <div className="glass-card p-6 text-center">
-              <p className="text-muted-foreground mb-4">Você ainda não tem metas cadastradas</p>
+              <p className="text-white mb-4">Você ainda não tem metas cadastradas</p>
               <Button 
                 asChild 
                 className="bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 transition-opacity"
@@ -187,154 +187,140 @@ const DashboardPage = () => {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   };
-
   return (
-    <div className="dark min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+    <AppLayout>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-12">
+        <div>
+          <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-300 mb-2">
+            Dashboard
+          </h1>
+          <p className="text-purple-200/70 text-lg">
+            Bem-vindo(a), {profile?.name || 'Usuário'}
+          </p>
+        </div>
+
+        <div className="flex gap-4">
+          <Button asChild className="glass-card border-purple-500/20 hover:bg-slate-900/70 text-purple-100">
+            <Link to="/transactions/new">
+              <ArrowDownLeft className="mr-2 h-4 w-4" />
+              Nova Transação
+            </Link>
+          </Button>
+          <Button asChild className="bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90 text-white">
+            <Link to="/goals/new">
+              <Target className="mr-2 h-4 w-4" />
+              Nova Meta
+            </Link>
+          </Button>
+        </div>
       </div>
 
-      <div className="relative z-10 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400 mb-2">
-                Dashboard
-              </h1>
-              <p className="text-purple-200/60 text-lg">
-                Bem-vindo(a), {profile?.name || 'Usuário'}
-              </p>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-3 gap-6 mb-12">
+        <div className="glass-card rounded-2xl p-6 relative overflow-hidden group">
+          <div className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-purple-500/20 border border-purple-500/30">
+                <Wallet className="w-6 h-6 text-purple-700" />
+              </div>
+              <p className="text-sm text-purple-200/70">Saldo do Mês</p>
             </div>
-            
-            <div className="flex gap-4">
-              <Button asChild className="bg-slate-800/50 hover:bg-slate-800 border border-purple-500/30 text-purple-200">
-                <Link to="/transactions/new">
-                  <ArrowDownLeft className="mr-2 h-4 w-4" />
-                  Nova Transação
-                </Link>
-              </Button>
-              <Button asChild className="bg-gradient-to-r from-purple-500/90 to-blue-500/90 hover:from-purple-500 hover:to-blue-500 text-white">
-                <Link to="/goals/new">
-                  <Target className="mr-2 h-4 w-4" />
-                  Nova Meta
-                </Link>
-              </Button>
-            </div>
+            <p className={`text-3xl font-bold ${balance >= 0 ? 'text-green-500' : 'text-red-500'}`}>{formatCurrency(balance)}</p>
           </div>
+        </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-3 gap-6 mb-12">
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 relative overflow-hidden group hover:border-purple-500/40 transition-all">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-purple-500/20 border border-purple-500/30">
-                    <Wallet className="w-6 h-6 text-purple-300" />
-                  </div>
-                  <p className="text-sm text-purple-300/60">Saldo do Mês</p>
-                </div>
-                <p className="text-3xl font-bold text-purple-100">{formatCurrency(balance)}</p>
+        <div className="glass-card rounded-2xl p-6 relative overflow-hidden group">
+          <div className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-green-500/20 border border-green-500/30">
+                <ArrowUpRight className="w-6 h-6 text-green-500" />
               </div>
+              <p className="text-sm text-purple-200/70">Receitas</p>
             </div>
-
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-green-500/20 rounded-2xl p-6 relative overflow-hidden group hover:border-green-500/40 transition-all">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-green-500/20 border border-green-500/30">
-                    <ArrowUpRight className="w-6 h-6 text-green-300" />
-                  </div>
-                  <p className="text-sm text-purple-300/60">Receitas</p>
-                </div>
-                <p className="text-3xl font-bold text-green-300">{formatCurrency(income)}</p>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 relative overflow-hidden group hover:border-red-500/40 transition-all">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="relative">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/30">
-                    <ArrowDownLeft className="w-6 h-6 text-red-300" />
-                  </div>
-                  <p className="text-sm text-purple-300/60">Despesas</p>
-                </div>
-                <p className="text-3xl font-bold text-red-300">{formatCurrency(expenses)}</p>
-              </div>
-            </div>
+            <p className="text-3xl font-bold text-green-500">{formatCurrency(income)}</p>
           </div>
+        </div>
 
-          {/* Goals Section */}
-          <div className="bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-3xl p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-primary/20 border border-primary/30">
-                  <Target className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-purple-100">Suas Metas</h2>
-                  <p className="text-purple-200/60">Acompanhe seu progresso</p>
-                </div>
+        <div className="glass-card rounded-2xl p-6 relative overflow-hidden group">
+          <div className="relative">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/30">
+                <ArrowDownLeft className="w-6 h-6 text-red-500" />
               </div>
-              
-              {goals.length > 0 && (
-                <Button asChild className="bg-slate-800/50 hover:bg-slate-800 border border-purple-500/30 text-purple-200">
-                  <Link to="/goals">Ver todas</Link>
-                </Button>
-              )}
+              <p className="text-sm text-purple-200/70">Despesas</p>
             </div>
-
-            {goals.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
-                  <Target className="w-10 h-10 text-purple-400" />
-                </div>
-                <p className="text-purple-200/60 mb-6">Você ainda não tem metas cadastradas</p>
-                <Button asChild className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">
-                  <Link to="/goals/new">Criar primeira meta</Link>
-                </Button>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 gap-6">
-                {goals.map(goal => {
-                  const progress = ((goal.current_amount || 0) / goal.target_amount) * 100;
-                  return (
-                    <Link 
-                      key={goal.id}
-                      to={`/goals/${goal.id}/contributions`}
-                      className="bg-slate-800/50 border border-purple-500/20 rounded-2xl p-6 hover:border-purple-500/40 hover:bg-slate-800/70 transition-all group"
-                    >
-                      <h3 className="text-lg font-semibold text-purple-100 mb-4 group-hover:text-purple-200">{goal.name}</h3>
-                      
-                      <div className="mb-4">
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-purple-300">{formatCurrency(goal.current_amount || 0)}</span>
-                          <span className="text-purple-300/60">{formatCurrency(goal.target_amount)}</span>
-                        </div>
-                        <div className="h-3 rounded-full bg-slate-700/50 overflow-hidden">
-                          <div 
-                            className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full transition-all duration-500"
-                            style={{ width: `${Math.min(progress, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-purple-300/60">Progresso</span>
-                        <span className="font-semibold text-purple-200">{progress.toFixed(0)}%</span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
+            <p className="text-3xl font-bold text-red-500">{formatCurrency(expenses)}</p>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Goals Section */}
+      <div className="glass-card rounded-3xl p-8">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-xl bg-purple-500/20 border border-purple-500/30">
+              <Target className="w-6 h-6 text-purple-300" />
+              </div>
+              <div>
+              <h2 className="text-2xl font-bold text-purple-100">Suas Metas</h2>
+              <p className="text-purple-200/70">Acompanhe seu progresso</p>
+              </div>
+            </div>
+
+            {goals.length > 0 && (
+            <Button asChild className="glass-card border-purple-500/20 text-purple-100">
+              <Link to="/goals">Ver todas</Link>
+            </Button>
+            )}
+          </div>
+
+        {goals.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
+              <Target className="w-10 h-10 text-purple-600" />
+            </div>
+            <p className="text-purple-200/70 mb-6">Você ainda não tem metas cadastradas</p>
+            <Button asChild className="bg-gradient-to-r from-purple-500 to-blue-500 text-white">
+              <Link to="/goals/new">Criar primeira meta</Link>
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-6">
+            {goals.map(goal => {
+              const progress = ((goal.current_amount || 0) / goal.target_amount) * 100;
+              return (
+                <Link
+                  key={goal.id}
+                  to={`/goals/${goal.id}/contributions`}
+                  className="glass-card rounded-2xl p-6 hover:bg-slate-900/70 transition-all group border-purple-500/20"
+                >
+                  <h3 className="text-lg font-semibold text-purple-100 mb-4 group-hover:text-purple-200">{goal.name}</h3>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-purple-100">{formatCurrency(goal.current_amount || 0)}</span>
+                      <span className="text-purple-200/70">{formatCurrency(goal.target_amount)}</span>
+                    </div>
+                    <div className="progress-bar">
+                      <div
+                        className="progress-value"
+                        style={{ width: `${Math.min(progress, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-purple-200/70">Progresso</span>
+                    <span className="font-semibold text-purple-100">{progress.toFixed(0)}%</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </AppLayout>
   );
 };
 

@@ -20,8 +20,8 @@ export const UserHeader = ({ userName, photoURL }: UserHeaderProps) => {
   return (
     <div className="flex items-center justify-between mb-6">
       <div>
-        <h1 className="text-2xl font-bold">Olá, {userName} 👋</h1>
-        <p className="text-muted-foreground">Bem-vindo de volta!</p>
+        <h1 className="text-2xl font-bold text-white">Olá, {userName} 👋</h1>
+        <p className="text-white">Bem-vindo de volta!</p>
       </div>
       
       <Link to="/profile" className="block">

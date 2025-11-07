@@ -156,10 +156,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (!error) {
-        toast({
-          title: "Perfil atualizado",
-          description: "Seu perfil foi atualizado com sucesso!"
-        });
+        
       } else {
         toast({
           title: "Erro ao atualizar perfil",

@@ -16,7 +16,7 @@ const SignupPage = () => {
               <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
                 OrganizeAI
               </h1>
-              <p className="text-muted-foreground">Organize seus objetivos financeiros</p>
+              <p className="text-white">Organize seus objetivos financeiros</p>
             </div>
             
             <div className="glass-card p-6">

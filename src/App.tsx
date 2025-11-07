@@ -17,7 +17,6 @@ import NewGoalPage from "./pages/NewGoalPage";
 import GoalContributionsPage from "./pages/GoalContributionsPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import NewTransactionPage from "./pages/NewTransactionPage";
-import ShoppingListPage from "./pages/ShoppingListPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 const queryClient = new QueryClient();
@@ -54,7 +53,7 @@ const AppRoutes = () => {
       <Route path="/goals/:id/contributions" element={<ProtectedRoute><GoalContributionsPage /></ProtectedRoute>} />
       <Route path="/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
       <Route path="/transactions/new" element={<ProtectedRoute><NewTransactionPage /></ProtectedRoute>} />
-      <Route path="/shopping" element={<ProtectedRoute><ShoppingListPage /></ProtectedRoute>} />
+      {/* Shopping route removida */}
       
       {/* Catch-all route */}
       <Route path="*" element={<NotFoundPage />} />

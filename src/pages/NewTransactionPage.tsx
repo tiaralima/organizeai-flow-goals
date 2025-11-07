@@ -181,8 +181,8 @@ export function NewTransactionPage() {
             <ArrowLeft size={20} />
           </Button>
           <div>
-            <h1 className="text-xl font-bold">Nova Transação</h1>
-            <p className="text-sm text-muted-foreground">Registre uma nova transação</p>
+            <h1 className="text-xl font-bold text-white">Nova Transação</h1>
+            <p className="text-sm text-white">Registre uma nova transação</p>
           </div>
         </div>
 
@@ -198,7 +198,7 @@ export function NewTransactionPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Valor</Label>
+                <Label className="text-white">Valor</Label>
                 <NumericFormat
                   className="glass-input"
                   placeholder="R$ 0,00"
@@ -215,7 +215,7 @@ export function NewTransactionPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Tipo</Label>
+                <Label className="text-white">Tipo</Label>
                 <Select
                   value={type}
                   onValueChange={(value: 'income' | 'expense') => setType(value)}
@@ -233,7 +233,7 @@ export function NewTransactionPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Categoria</Label>
+              <Label className="text-white">Categoria</Label>
               <Select
                 value={categoryId?.toString() || ''}
                 onValueChange={(value) => setCategoryId(Number(value))}
@@ -255,7 +255,7 @@ export function NewTransactionPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Data</Label>
+              <Label className="text-white">Data</Label>
               <Input
                 type="date"
                 className="glass-input"
@@ -267,7 +267,7 @@ export function NewTransactionPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Descrição</Label>
+              <Label className="text-white">Descrição</Label>
               <Textarea
                 className="glass-input min-h-[80px]"
                 placeholder="Adicione uma descrição (opcional)"
@@ -280,8 +280,8 @@ export function NewTransactionPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>Transação Recorrente</Label>
-                  <p className="text-sm text-muted-foreground">
+                  <Label className="text-white">Transação Recorrente</Label>
+                  <p className="text-sm text-white">
                     Marque se esta transação se repete mensalmente
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export function NewTransactionPage() {
 
               {isRecurring && (
                 <div className="space-y-2">
-                  <Label>Quantidade de Meses</Label>
+                  <Label className="text-white">Quantidade de Meses</Label>
                   <Input
                     type="number"
                     min="2"
@@ -306,7 +306,7 @@ export function NewTransactionPage() {
                     required={isRecurring}
                     disabled={loading}
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white">
                     A transação será criada automaticamente para os próximos meses
                   </p>
                 </div>

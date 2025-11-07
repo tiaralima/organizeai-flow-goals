@@ -90,25 +90,25 @@
   }
 
   body {
-    @apply bg-gradient-to-br from-purple-100 to-blue-100 text-foreground min-h-screen;
+    @apply bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-foreground min-h-screen;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/30 backdrop-blur-md border border-white/40 rounded-xl shadow-lg;
+    @apply bg-slate-900/60 backdrop-blur-md border border-purple-500/25 rounded-xl shadow-lg;
   }
   
   .glass-input {
-    @apply bg-white/40 backdrop-blur-sm border border-white/40 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500;
+    @apply bg-slate-900/60 backdrop-blur-sm border border-purple-500/25 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-purple-100 placeholder:text-purple-300/60;
   }
 
   .progress-bar {
-    @apply h-2 rounded-full bg-white/30 overflow-hidden;
+    @apply h-2 rounded-full bg-slate-700/50 overflow-hidden;
   }
 
   .progress-value {
-    @apply h-full rounded-full bg-gradient-to-r from-purple-500 to-blue-500;
+    @apply h-full rounded-full bg-gradient-to-r from-purple-500 to-purple-300;
   }
 }

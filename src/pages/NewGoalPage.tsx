@@ -97,14 +97,14 @@ const NewGoalPage = () => {
   return (
     <AppLayout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Nova Meta 🎯</h1>
-        <p className="text-muted-foreground">Defina um objetivo financeiro</p>
+        <h1 className="text-2xl font-bold text-white">Nova Meta 🎯</h1>
+        <p className="text-white">Defina um objetivo financeiro</p>
       </div>
       
       <div className="glass-card p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Nome da meta</label>
+            <label className="block text-sm font-medium text-white">Nome da meta</label>
             <Input
               className="glass-input"
               placeholder="Ex: Carro novo, Viagem, Faculdade..."
@@ -115,7 +115,7 @@ const NewGoalPage = () => {
           </div>
           
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Valor total (R$)</label>
+            <label className="block text-sm font-medium text-white">Valor total (R$)</label>
             <NumericFormat
               className="glass-input"
               placeholder="R$ 0,00"
@@ -131,7 +131,7 @@ const NewGoalPage = () => {
           </div>
           
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Prazo (meses)</label>
+            <label className="block text-sm font-medium text-white">Prazo (meses)</label>
             <Input
               className="glass-input"
               type="number"
@@ -145,11 +145,11 @@ const NewGoalPage = () => {
           
           {monthlyAmount !== null && (
             <div className="glass-card p-4 text-center bg-white/40">
-              <p className="text-sm text-muted-foreground">Valor mensal necessário</p>
+              <p className="text-sm text-white">Valor mensal necessário</p>
               <p className="text-2xl font-bold text-purple-700">
                 R$ {formatCurrency(monthlyAmount)}
               </p>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-white mt-1">
                 Para atingir sua meta em {months} meses
               </p>
             </div>

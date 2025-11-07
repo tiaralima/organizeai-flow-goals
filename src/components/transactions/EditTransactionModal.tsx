@@ -5,10 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 
 type Transaction = {
   id: number;
@@ -159,14 +160,28 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Editar Transação</DialogTitle>
+      <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl text-purple-100">
+        <DialogHeader className="p-6 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-purple-500/20">
+              {formData.transaction_type === 'income' ? (
+                <ArrowUpRight className="text-purple-700" size={20} />
+              ) : (
+                <ArrowDownLeft className="text-purple-700" size={20} />
+              )}
+            </div>
+            <div>
+              <DialogTitle className="text-white">Editar Transação</DialogTitle>
+              <p className="text-xs text-purple-300">
+                {formData.transaction_type === 'income' ? 'Receita' : 'Despesa'}
+              </p>
+            </div>
+          </div>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 p-6 pt-0">
           <div className="space-y-2">
-            <Label htmlFor="transaction_type">Tipo</Label>
+            <Label htmlFor="transaction_type" className="text-purple-200">Tipo</Label>
             <Select
               value={formData.transaction_type}
               onValueChange={(value: 'income' | 'expense') => {
@@ -177,10 +192,10 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
                 }));
               }}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12 rounded-lg px-4">
                 <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="glass-card">
                 <SelectItem value="income">Receita</SelectItem>
                 <SelectItem value="expense">Despesa</SelectItem>
               </SelectContent>
@@ -188,7 +203,7 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="amount">Valor</Label>
+            <Label htmlFor="amount" className="text-purple-200">Valor</Label>
             <Input
               id="amount"
               type="number"
@@ -197,19 +212,20 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
               onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
               placeholder="0,00"
               required
+              className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12 rounded-lg px-4"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Categoria</Label>
+            <Label htmlFor="category" className="text-purple-200">Categoria</Label>
             <Select
               value={formData.category_id}
               onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12 rounded-lg px-4">
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="glass-card">
                 {filteredCategories.map(category => (
                   <SelectItem key={category.id} value={category.id.toString()}>
                     {category.name}
@@ -220,58 +236,58 @@ export const EditTransactionModal: React.FC<EditTransactionModalProps> = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="date">Data</Label>
+            <Label htmlFor="date" className="text-purple-200">Data</Label>
             <Input
               id="date"
               type="date"
               value={formData.date}
               onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
               required
+              className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 h-12 rounded-lg px-4"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Descrição (opcional)</Label>
+            <Label htmlFor="description" className="text-purple-200">Descrição (opcional)</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               placeholder="Adicione uma descrição..."
               rows={3}
+              className="bg-slate-800/50 border-purple-500/30 text-purple-100 placeholder:text-purple-300/30 focus:border-purple-500 rounded-lg px-4 py-2"
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
+          <div className="flex items-center justify-between bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-xl p-3">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="is_recurring" className="text-sm text-purple-200">Transação recorrente</Label>
+            </div>
+            <Switch
+              className="data-[state=checked]:bg-purple-600"
               id="is_recurring"
               checked={formData.is_recurring}
-              onChange={(e) => setFormData(prev => ({ ...prev, is_recurring: e.target.checked }))}
-              className="h-4 w-4"
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_recurring: checked }))}
             />
-            <Label htmlFor="is_recurring" className="text-sm">
-              Transação recorrente
-            </Label>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
+          <div className="flex items-center justify-between bg-slate-900/50 backdrop-blur-xl border border-purple-500/20 rounded-xl p-3">
+            <div className="flex items-center gap-2">
+              <Label htmlFor="is_paid" className="text-sm text-purple-200">Pago</Label>
+            </div>
+            <Switch
+              className="data-[state=checked]:bg-purple-600"
               id="is_paid"
               checked={formData.is_paid}
-              onChange={(e) => setFormData(prev => ({ ...prev, is_paid: e.target.checked }))}
-              className="h-4 w-4"
+              onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_paid: checked }))}
             />
-            <Label htmlFor="is_paid" className="text-sm">
-              Pago
-            </Label>
           </div>
 
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button type="button" variant="outline" onClick={onClose} className="border-red-500/30 text-red-300 hover:bg-red-500/10 hover:text-red-200">
               Cancelar
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90">
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

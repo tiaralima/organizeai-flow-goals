@@ -187,7 +187,7 @@ export function CategoryManager({ open, onOpenChange, onCategoriesChange }: Cate
                 <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
               </div>
             ) : filteredCategories.length === 0 ? (
-              <p className="text-sm text-muted-foreground text-center py-4">
+              <p className="text-sm text-white text-center py-4">
                 Nenhuma categoria encontrada
               </p>
             ) : (
@@ -215,4 +215,4 @@ export function CategoryManager({ open, onOpenChange, onCategoriesChange }: Cate
       </DialogContent>
     </Dialog>
   );
-} 
+}

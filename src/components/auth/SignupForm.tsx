@@ -40,8 +40,8 @@ export const SignupForm = () => {
   return (
     <div className="w-full space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Cadastro 📝</h1>
-        <p className="text-muted-foreground">Crie sua conta para começar</p>
+        <h1 className="text-3xl font-bold text-foreground dark:text-purple-100">Cadastro 📝</h1>
+        <p className="text-muted-foreground dark:text-purple-200/60">Crie sua conta para começar</p>
       </div>
 
       <form onSubmit={handleSignup} className="space-y-4">
@@ -111,9 +111,9 @@ export const SignupForm = () => {
       </form>
 
       <div className="text-center">
-        <p className="text-sm">
+        <p className="text-sm text-foreground dark:text-purple-200/60">
           Já tem uma conta?{' '}
-          <Link to="/login" className="text-purple-600 hover:underline">
+          <Link to="/login" className="text-purple-600 dark:text-primary hover:underline">
             Faça login
           </Link>
         </p>

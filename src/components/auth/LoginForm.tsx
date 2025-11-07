@@ -30,8 +30,8 @@ export const LoginForm = () => {
   return (
     <div className="w-full space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Login 🔑</h1>
-        <p className="text-muted-foreground">Entre com seu email e senha</p>
+        <h1 className="text-3xl font-bold text-foreground dark:text-purple-100">Login 🔑</h1>
+        <p className="text-muted-foreground dark:text-purple-200/60">Entre com seu email e senha</p>
       </div>
 
       <form onSubmit={handleLogin} className="space-y-4">
@@ -72,9 +72,9 @@ export const LoginForm = () => {
       </form>
 
       <div className="text-center">
-        <p className="text-sm">
+        <p className="text-sm text-foreground dark:text-purple-200/60">
           Não tem conta?{' '}
-          <Link to="/signup" className="text-purple-600 hover:underline">
+          <Link to="/signup" className="text-purple-600 dark:text-primary hover:underline">
             Cadastre-se
           </Link>
         </p>

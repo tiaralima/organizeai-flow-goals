@@ -2,7 +2,7 @@ import React from 'react';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Sparkles, TrendingUp, Target, Zap } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, Zap, Rocket } from 'lucide-react';
 
 const LoginPage = () => {
   const isMobile = useIsMobile();
@@ -13,8 +13,8 @@ const LoginPage = () => {
         <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
-                OrganizeAI
+              <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 flex items-center justify-center">
+                OrganizeAI <Rocket className='ml-2' />
               </h1>
             <p className="text-white">Organize seus objetivos financeiros</p>
             </div>
@@ -34,8 +34,8 @@ const LoginPage = () => {
         {/* Branding & Features */}
         <div className="px-4 lg:px-0">
           <div className="mb-12">
-            <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-300">
-              OrganizeAI
+            <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-purple-300 flex items-center">
+              OrganizeAI <Rocket className='ml-4' />
             </h1>
             <p className="text-2xl text-purple-200/70">Organize seus objetivos financeiros com inteligência</p>
           </div>
